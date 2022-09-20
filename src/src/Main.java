@@ -8,6 +8,7 @@ public class Main {
     public static ArrayList<Vokabel> richtigeVoks = new ArrayList<>();
 
     private static boolean shouldShuffle = false;
+    private static boolean shouldTranslationToVocab = false;
 
     private static void initVocs() {
         vokabeln.add(new Vokabel("la inmigración", "Immigration", "Einwanderung"));
@@ -116,13 +117,17 @@ public class Main {
         if(scanner.nextLine().equalsIgnoreCase("y"))
             shouldShuffle = true;
 
+        System.out.println("Foreign Language to native Language? [Y:N]");
+        if(scanner.nextLine().equalsIgnoreCase("y"))
+            shouldTranslationToVocab = true;
+
         if(shouldShuffle)
             Collections.shuffle(vokabeln);
 
         while(richtigeVoks.size() != vokabeln.size()) {
             for (Vokabel vokabel : vokabeln) {
                 if(!richtigeVoks.contains(vokabel)) {
-                    if(fragAb(vokabel)) {
+                    if(fragAb(vokabel, shouldTranslationToVocab)) {
                         richtigeVoks.add(vokabel);
                         System.out.println("Richtig!");
                     } else {
@@ -133,15 +138,25 @@ public class Main {
         }
     }
 
-    private static boolean fragAb(Vokabel voc) {
-        System.out.println("Die Übersetzung für " + voc.getF() + ":");
-        Scanner input = new Scanner(System.in);
-        String line = input.nextLine();
-        if(line.equalsIgnoreCase(voc.getU()) || line.equalsIgnoreCase(voc.getA())) {
-            return true;
+    private static boolean fragAb(Vokabel voc, boolean swap) {
+        if (swap) {
+            System.out.println("Die Übersetzung für " + voc.getU() + ":");
+            Scanner input = new Scanner(System.in);
+            String line = input.nextLine();
+            if(line.equalsIgnoreCase(voc.getF())) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            System.out.println("Die Übersetzung für " + voc.getF() + ":");
+            Scanner input = new Scanner(System.in);
+            String line = input.nextLine();
+            if (line.equalsIgnoreCase(voc.getU()) || line.equalsIgnoreCase(voc.getA())) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
-
 }
