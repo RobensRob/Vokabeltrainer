@@ -1,10 +1,13 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Main {
 
-    public static ArrayList<Vokabel> vokabeln = new ArrayList<Vokabel>();
+    public static ArrayList<Vokabel> vokabeln = new ArrayList<>();
     public static ArrayList<Vokabel> richtigeVoks = new ArrayList<>();
+
+    private static boolean shouldShuffle = false;
 
     private static void initVocs() {
         vokabeln.add(new Vokabel("la inmigración", "Immigration", "Einwanderung"));
@@ -81,7 +84,7 @@ public class Main {
         vokabeln.add(new Vokabel("la razón, pl. las razones", "Grund", "Begründung"));
         vokabeln.add(new Vokabel("el motivo", "Grund", "Motiv"));
         vokabeln.add(new Vokabel("la aventura mortal", "tödliches Abenteuer"));
-        vokabeln.add(new Vokabel("el riesgo", "das Risiko"));
+        vokabeln.add(new Vokabel("el riesgo", "Risiko"));
         vokabeln.add(new Vokabel("arriesgado", "riskant"));
         vokabeln.add(new Vokabel("arriesgar", "riskieren"));
         vokabeln.add(new Vokabel("rescatar a alguien", "jemanden retten"));
@@ -107,6 +110,15 @@ public class Main {
 
     public static void main(String[] args) {
         initVocs();
+
+        System.out.println("Shuffle? [Y:N]");
+        Scanner scanner = new Scanner(System.in);
+        if(scanner.nextLine().equalsIgnoreCase("y"))
+            shouldShuffle = true;
+
+        if(shouldShuffle)
+            Collections.shuffle(vokabeln);
+
         while(richtigeVoks.size() != vokabeln.size()) {
             for (Vokabel vokabel : vokabeln) {
                 if(!richtigeVoks.contains(vokabel)) {
